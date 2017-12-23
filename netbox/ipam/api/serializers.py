@@ -231,6 +231,19 @@ class PrefixSerializer(CustomFieldModelSerializer):
         ]
 
 
+class NarrowPrefixSerializer(CustomFieldModelSerializer):
+    vlan = NestedVLANSerializer()
+    status = ChoiceFieldSerializer(choices=PREFIX_STATUS_CHOICES)
+    role = NestedRoleSerializer()
+
+    class Meta:
+        model = Prefix
+        fields = [
+            'id', 'family', 'prefix', 'vlan', 'status', 'role', 'is_pool', 'description',
+            'custom_fields', 'created', 'last_updated',
+        ]
+
+
 class NestedPrefixSerializer(serializers.ModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='ipam-api:prefix-detail')
 

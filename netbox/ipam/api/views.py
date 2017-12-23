@@ -218,8 +218,7 @@ class PrefixViewSetNarrow(CustomFieldModelViewSet):
     to make requests somewhat faster
     '''
     queryset = Prefix.objects.select_related('vlan', 'role')
-    serializer_class = serializers.PrefixSerializer
-    write_serializer_class = serializers.WritablePrefixSerializer
+    serializer_class = serializers.NarrowPrefixSerializer
     filter_class = filters.PrefixFilter
 
 #
