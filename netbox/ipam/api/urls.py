@@ -31,6 +31,7 @@ router.register(r'aggregates', views.AggregateViewSet)
 # Prefixes
 router.register(r'roles', views.RoleViewSet)
 router.register(r'prefixes', views.PrefixViewSet)
+router.register(r'prefixes-narrow', views.PrefixViewSetNarrow)
 
 # IP addresses
 router.register(r'ip-addresses', views.IPAddressViewSet)

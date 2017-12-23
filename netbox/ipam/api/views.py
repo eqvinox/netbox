@@ -212,6 +212,16 @@ class PrefixViewSet(CustomFieldModelViewSet):
             return Response(serializer.data)
 
 
+class PrefixViewSetNarrow(WritableSerializerMixin, CustomFieldModelViewSet):
+    '''
+    /api/prefixes-narrow/ - same as prefixes, but without tenant/site info,
+    to make requests somewhat faster
+    '''
+    queryset = Prefix.objects.select_related('vlan', 'role')
+    serializer_class = serializers.PrefixSerializer
+    write_serializer_class = serializers.WritablePrefixSerializer
+    filter_class = filters.PrefixFilter
+
 #
 # IP addresses
 #
