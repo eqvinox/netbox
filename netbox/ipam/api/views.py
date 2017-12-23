@@ -212,7 +212,7 @@ class PrefixViewSet(CustomFieldModelViewSet):
             return Response(serializer.data)
 
 
-class PrefixViewSetNarrow(WritableSerializerMixin, CustomFieldModelViewSet):
+class PrefixViewSetNarrow(CustomFieldModelViewSet):
     '''
     /api/prefixes-narrow/ - same as prefixes, but without tenant/site info,
     to make requests somewhat faster
