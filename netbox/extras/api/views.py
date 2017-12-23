@@ -3,7 +3,8 @@ from __future__ import unicode_literals
 from django.contrib.contenttypes.models import ContentType
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404
-from rest_framework.decorators import detail_route
+from django.db.models import Max
+from rest_framework.decorators import detail_route, list_route
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
 from rest_framework.viewsets import ReadOnlyModelViewSet, ViewSet
@@ -58,6 +59,11 @@ class CustomFieldModelViewSet(ModelViewSet):
     def get_queryset(self):
         # Prefetch custom field values
         return super(CustomFieldModelViewSet, self).get_queryset().prefetch_related('custom_field_values__field')
+
+    @list_route(url_path='last_updated', methods=['get'])
+    def max_last_updated(self, request, pk=None):
+        val = self.queryset.aggregate(Max('last_updated'))
+        return Response(val['last_updated__max'].isoformat())
 
 
 #
