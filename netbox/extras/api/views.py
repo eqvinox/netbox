@@ -63,7 +63,7 @@ class CustomFieldModelViewSet(ModelViewSet):
     @list_route(url_path='last_updated', methods=['get'])
     def max_last_updated(self, request, pk=None):
         val = self.queryset.aggregate(Max('last_updated'))
-        return Response(val['last_updated__max'].isoformat())
+        return Response({'result': val['last_updated__max'].isoformat()})
 
 
 #
