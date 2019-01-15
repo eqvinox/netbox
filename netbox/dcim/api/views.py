@@ -50,7 +50,7 @@ class DCIMFieldChoicesViewSet(FieldChoicesViewSet):
 #
 
 class RegionViewSet(ModelViewSet):
-    queryset = Region.objects.all()
+    queryset = Region.objects.order_by('id').all()
     serializer_class = serializers.RegionSerializer
     filter_class = filters.RegionFilter
 
@@ -60,7 +60,7 @@ class RegionViewSet(ModelViewSet):
 #
 
 class SiteViewSet(CustomFieldModelViewSet):
-    queryset = Site.objects.select_related('region', 'tenant')
+    queryset = Site.objects.order_by('id').select_related('region', 'tenant')
     serializer_class = serializers.SiteSerializer
     filter_class = filters.SiteFilter
 
@@ -70,7 +70,7 @@ class SiteViewSet(CustomFieldModelViewSet):
         A convenience method for rendering graphs for a particular site.
         """
         site = get_object_or_404(Site, pk=pk)
-        queryset = Graph.objects.filter(type=GRAPH_TYPE_SITE)
+        queryset = Graph.objects.order_by('id').filter(type=GRAPH_TYPE_SITE)
         serializer = RenderedGraphSerializer(queryset, many=True, context={'graphed_object': site})
         return Response(serializer.data)
 
@@ -80,7 +80,7 @@ class SiteViewSet(CustomFieldModelViewSet):
 #
 
 class RackGroupViewSet(ModelViewSet):
-    queryset = RackGroup.objects.select_related('site')
+    queryset = RackGroup.objects.order_by('id').select_related('site')
     serializer_class = serializers.RackGroupSerializer
     filter_class = filters.RackGroupFilter
 
@@ -90,7 +90,7 @@ class RackGroupViewSet(ModelViewSet):
 #
 
 class RackRoleViewSet(ModelViewSet):
-    queryset = RackRole.objects.all()
+    queryset = RackRole.objects.order_by('id').all()
     serializer_class = serializers.RackRoleSerializer
     filter_class = filters.RackRoleFilter
 
@@ -100,7 +100,7 @@ class RackRoleViewSet(ModelViewSet):
 #
 
 class RackViewSet(CustomFieldModelViewSet):
-    queryset = Rack.objects.select_related('site', 'group__site', 'tenant')
+    queryset = Rack.objects.order_by('id').select_related('site', 'group__site', 'tenant')
     serializer_class = serializers.RackSerializer
     filter_class = filters.RackFilter
 
@@ -130,7 +130,7 @@ class RackViewSet(CustomFieldModelViewSet):
 #
 
 class RackReservationViewSet(ModelViewSet):
-    queryset = RackReservation.objects.select_related('rack', 'user', 'tenant')
+    queryset = RackReservation.objects.order_by('id').select_related('rack', 'user', 'tenant')
     serializer_class = serializers.RackReservationSerializer
     filter_class = filters.RackReservationFilter
 
@@ -144,7 +144,7 @@ class RackReservationViewSet(ModelViewSet):
 #
 
 class ManufacturerViewSet(ModelViewSet):
-    queryset = Manufacturer.objects.all()
+    queryset = Manufacturer.objects.order_by('id').all()
     serializer_class = serializers.ManufacturerSerializer
     filter_class = filters.ManufacturerFilter
 
@@ -154,7 +154,7 @@ class ManufacturerViewSet(ModelViewSet):
 #
 
 class DeviceTypeViewSet(CustomFieldModelViewSet):
-    queryset = DeviceType.objects.select_related('manufacturer')
+    queryset = DeviceType.objects.order_by('id').select_related('manufacturer')
     serializer_class = serializers.DeviceTypeSerializer
     filter_class = filters.DeviceTypeFilter
 
@@ -164,37 +164,37 @@ class DeviceTypeViewSet(CustomFieldModelViewSet):
 #
 
 class ConsolePortTemplateViewSet(ModelViewSet):
-    queryset = ConsolePortTemplate.objects.select_related('device_type__manufacturer')
+    queryset = ConsolePortTemplate.objects.order_by('id').select_related('device_type__manufacturer')
     serializer_class = serializers.ConsolePortTemplateSerializer
     filter_class = filters.ConsolePortTemplateFilter
 
 
 class ConsoleServerPortTemplateViewSet(ModelViewSet):
-    queryset = ConsoleServerPortTemplate.objects.select_related('device_type__manufacturer')
+    queryset = ConsoleServerPortTemplate.objects.order_by('id').select_related('device_type__manufacturer')
     serializer_class = serializers.ConsoleServerPortTemplateSerializer
     filter_class = filters.ConsoleServerPortTemplateFilter
 
 
 class PowerPortTemplateViewSet(ModelViewSet):
-    queryset = PowerPortTemplate.objects.select_related('device_type__manufacturer')
+    queryset = PowerPortTemplate.objects.order_by('id').select_related('device_type__manufacturer')
     serializer_class = serializers.PowerPortTemplateSerializer
     filter_class = filters.PowerPortTemplateFilter
 
 
 class PowerOutletTemplateViewSet(ModelViewSet):
-    queryset = PowerOutletTemplate.objects.select_related('device_type__manufacturer')
+    queryset = PowerOutletTemplate.objects.order_by('id').select_related('device_type__manufacturer')
     serializer_class = serializers.PowerOutletTemplateSerializer
     filter_class = filters.PowerOutletTemplateFilter
 
 
 class InterfaceTemplateViewSet(ModelViewSet):
-    queryset = InterfaceTemplate.objects.select_related('device_type__manufacturer')
+    queryset = InterfaceTemplate.objects.order_by('id').select_related('device_type__manufacturer')
     serializer_class = serializers.InterfaceTemplateSerializer
     filter_class = filters.InterfaceTemplateFilter
 
 
 class DeviceBayTemplateViewSet(ModelViewSet):
-    queryset = DeviceBayTemplate.objects.select_related('device_type__manufacturer')
+    queryset = DeviceBayTemplate.objects.order_by('id').select_related('device_type__manufacturer')
     serializer_class = serializers.DeviceBayTemplateSerializer
     filter_class = filters.DeviceBayTemplateFilter
 
@@ -204,7 +204,7 @@ class DeviceBayTemplateViewSet(ModelViewSet):
 #
 
 class DeviceRoleViewSet(ModelViewSet):
-    queryset = DeviceRole.objects.all()
+    queryset = DeviceRole.objects.order_by('id').all()
     serializer_class = serializers.DeviceRoleSerializer
     filter_class = filters.DeviceRoleFilter
 
@@ -214,7 +214,7 @@ class DeviceRoleViewSet(ModelViewSet):
 #
 
 class PlatformViewSet(ModelViewSet):
-    queryset = Platform.objects.all()
+    queryset = Platform.objects.order_by('id').all()
     serializer_class = serializers.PlatformSerializer
     filter_class = filters.PlatformFilter
 
@@ -224,7 +224,7 @@ class PlatformViewSet(ModelViewSet):
 #
 
 class DeviceViewSet(CustomFieldModelViewSet):
-    queryset = Device.objects.select_related(
+    queryset = Device.objects.order_by('id').select_related(
         'device_type__manufacturer', 'device_role', 'tenant', 'platform', 'site', 'rack', 'parent_bay',
         'virtual_chassis__master',
     ).prefetch_related(
@@ -315,31 +315,31 @@ class DeviceViewSet(CustomFieldModelViewSet):
 #
 
 class ConsolePortViewSet(ModelViewSet):
-    queryset = ConsolePort.objects.select_related('device', 'cs_port__device')
+    queryset = ConsolePort.objects.order_by('id').select_related('device', 'cs_port__device')
     serializer_class = serializers.ConsolePortSerializer
     filter_class = filters.ConsolePortFilter
 
 
 class ConsoleServerPortViewSet(ModelViewSet):
-    queryset = ConsoleServerPort.objects.select_related('device', 'connected_console__device')
+    queryset = ConsoleServerPort.objects.order_by('id').select_related('device', 'connected_console__device')
     serializer_class = serializers.ConsoleServerPortSerializer
     filter_class = filters.ConsoleServerPortFilter
 
 
 class PowerPortViewSet(ModelViewSet):
-    queryset = PowerPort.objects.select_related('device', 'power_outlet__device')
+    queryset = PowerPort.objects.order_by('id').select_related('device', 'power_outlet__device')
     serializer_class = serializers.PowerPortSerializer
     filter_class = filters.PowerPortFilter
 
 
 class PowerOutletViewSet(ModelViewSet):
-    queryset = PowerOutlet.objects.select_related('device', 'connected_port__device')
+    queryset = PowerOutlet.objects.order_by('id').select_related('device', 'connected_port__device')
     serializer_class = serializers.PowerOutletSerializer
     filter_class = filters.PowerOutletFilter
 
 
 class InterfaceViewSet(ModelViewSet):
-    queryset = Interface.objects.select_related('device')
+    queryset = Interface.objects.order_by('id').select_related('device')
     serializer_class = serializers.InterfaceSerializer
     filter_class = filters.InterfaceFilter
 
@@ -349,19 +349,19 @@ class InterfaceViewSet(ModelViewSet):
         A convenience method for rendering graphs for a particular interface.
         """
         interface = get_object_or_404(Interface, pk=pk)
-        queryset = Graph.objects.filter(type=GRAPH_TYPE_INTERFACE)
+        queryset = Graph.objects.order_by('id').filter(type=GRAPH_TYPE_INTERFACE)
         serializer = RenderedGraphSerializer(queryset, many=True, context={'graphed_object': interface})
         return Response(serializer.data)
 
 
 class DeviceBayViewSet(ModelViewSet):
-    queryset = DeviceBay.objects.select_related('installed_device')
+    queryset = DeviceBay.objects.order_by('id').select_related('installed_device')
     serializer_class = serializers.DeviceBaySerializer
     filter_class = filters.DeviceBayFilter
 
 
 class InventoryItemViewSet(ModelViewSet):
-    queryset = InventoryItem.objects.select_related('device', 'manufacturer')
+    queryset = InventoryItem.objects.order_by('id').select_related('device', 'manufacturer')
     serializer_class = serializers.InventoryItemSerializer
     filter_class = filters.InventoryItemFilter
 
@@ -371,19 +371,19 @@ class InventoryItemViewSet(ModelViewSet):
 #
 
 class ConsoleConnectionViewSet(ListModelMixin, GenericViewSet):
-    queryset = ConsolePort.objects.select_related('device', 'cs_port__device').filter(cs_port__isnull=False)
+    queryset = ConsolePort.objects.order_by('id').select_related('device', 'cs_port__device').filter(cs_port__isnull=False)
     serializer_class = serializers.ConsolePortSerializer
     filter_class = filters.ConsoleConnectionFilter
 
 
 class PowerConnectionViewSet(ListModelMixin, GenericViewSet):
-    queryset = PowerPort.objects.select_related('device', 'power_outlet__device').filter(power_outlet__isnull=False)
+    queryset = PowerPort.objects.order_by('id').select_related('device', 'power_outlet__device').filter(power_outlet__isnull=False)
     serializer_class = serializers.PowerPortSerializer
     filter_class = filters.PowerConnectionFilter
 
 
 class InterfaceConnectionViewSet(ModelViewSet):
-    queryset = InterfaceConnection.objects.select_related('interface_a__device', 'interface_b__device')
+    queryset = InterfaceConnection.objects.order_by('id').select_related('interface_a__device', 'interface_b__device')
     serializer_class = serializers.InterfaceConnectionSerializer
     filter_class = filters.InterfaceConnectionFilter
 
@@ -393,7 +393,7 @@ class InterfaceConnectionViewSet(ModelViewSet):
 #
 
 class VirtualChassisViewSet(ModelViewSet):
-    queryset = VirtualChassis.objects.all()
+    queryset = VirtualChassis.objects.order_by('id').all()
     serializer_class = serializers.VirtualChassisSerializer
 
 
